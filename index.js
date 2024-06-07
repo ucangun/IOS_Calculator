@@ -18,6 +18,28 @@ function afterSwitchCase() {
   currentNumber = "";
 }
 
+function calculateResult() {
+  if (currentNumber !== "" && previousNumber !== "" && operationButton) {
+    switch (operationButton) {
+      case "÷":
+        result = previousNumber / currentNumber;
+        break;
+      case "×":
+        result = previousNumber * currentNumber;
+        break;
+      case "+":
+        result = Number(previousNumber) + Number(currentNumber);
+        break;
+      case "-":
+        result = previousNumber - currentNumber;
+        break;
+      default:
+        break;
+    }
+    afterSwitchCase();
+  }
+}
+
 //? Variables
 
 let clickedButton;
@@ -58,29 +80,7 @@ container.addEventListener("click", (event) => {
 
       /// if the value is =
     } else if (valueOfClickedButton === "=") {
-      if (currentNumber !== "" && previousNumber !== "" && operationButton) {
-        switch (operationButton) {
-          case "÷":
-            result = previousNumber / currentNumber;
-            break;
-
-          case "×":
-            result = previousNumber * currentNumber;
-            break;
-
-          case "+":
-            result = Number(previousNumber) + Number(currentNumber);
-            break;
-
-          case "-":
-            result = previousNumber - currentNumber;
-            break;
-
-          default:
-            break;
-        }
-        afterSwitchCase();
-      }
+      calculateResult();
       /// if the value is % , ±
     } else if (valueOfClickedButton === "%" || valueOfClickedButton === "±") {
       if (resultPage.textContent !== "") {
