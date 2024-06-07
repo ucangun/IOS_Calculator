@@ -1,6 +1,7 @@
 const container = document.querySelector(".container");
 const resultPage = document.querySelector(".result-page");
 const reset = document.querySelector(".boxReset");
+const dot = document.querySelector(".boxDot");
 
 //! Reset
 reset.addEventListener("click", () => {
@@ -16,6 +17,8 @@ function afterSwitchCase() {
   previousNumber = result;
   currentNumber = "";
 }
+
+//? Variables
 
 let clickedButton;
 let valueOfClickedButton;
@@ -59,53 +62,50 @@ container.addEventListener("click", (event) => {
         switch (operationButton) {
           case "÷":
             result = previousNumber / currentNumber;
-
             break;
 
           case "×":
             result = previousNumber * currentNumber;
-
             break;
 
           case "+":
             result = Number(previousNumber) + Number(currentNumber);
-
             break;
 
           case "-":
             result = previousNumber - currentNumber;
-
             break;
+
           default:
             break;
         }
         afterSwitchCase();
       }
-      /// if the value is % , . , ±
-    } else if (
-      valueOfClickedButton === "%" ||
-      valueOfClickedButton === "±" ||
-      valueOfClickedButton === "."
-    ) {
+      /// if the value is % , ±
+    } else if (valueOfClickedButton === "%" || valueOfClickedButton === "±") {
       if (resultPage.textContent !== "") {
         switch (valueOfClickedButton) {
           case "%":
             result = resultPage.textContent / 100;
-
             break;
 
           case "±":
             result = resultPage.textContent * -1;
             break;
 
-          case ".":
-            result = resultPage.textContent + ".";
-            break;
-
           default:
             break;
         }
         afterSwitchCase();
+      }
+      /// if the value is .
+    } else if (valueOfClickedButton === ".") {
+      if (
+        resultPage.textContent !== "" &&
+        !resultPage.textContent.includes(".")
+      ) {
+        currentNumber += ".";
+        resultPage.textContent = currentNumber;
       }
     }
   }
