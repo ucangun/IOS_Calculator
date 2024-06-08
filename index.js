@@ -1,23 +1,27 @@
 const container = document.querySelector(".container");
 const resultPage = document.querySelector(".result-page");
 const reset = document.querySelector(".boxReset");
+//*
 const dot = document.querySelector(".boxDot");
+const absolute = document.querySelector(".boxAbsolute");
+const percent = document.querySelector(".boxPercent");
+const equal = document.querySelector(".boxEqual");
 
-//! Reset
-reset.addEventListener("click", () => {
-  resultPage.textContent = "";
-  currentNumber = "";
-  previousNumber = "";
-});
+//? Variables
+let clickedButton;
+let valueOfClickedButton;
+let operationButton;
+let currentNumber = "";
+let previousNumber = "";
+let result;
 
-//! Switch - Case Reset
-
-function afterSwitchCase() {
+//! display Result
+function displayResult() {
   resultPage.textContent = result;
   previousNumber = result;
   currentNumber = "";
 }
-
+//! Function to calculate result
 function calculateResult() {
   if (currentNumber !== "" && previousNumber !== "" && operationButton) {
     switch (operationButton) {
@@ -36,77 +40,68 @@ function calculateResult() {
       default:
         break;
     }
-    afterSwitchCase();
+    displayResult();
   }
 }
-
-//? Variables
-
-let clickedButton;
-let valueOfClickedButton;
-let operationButton;
-let currentNumber = "";
-let previousNumber = "";
-let result;
 
 //! Selecting of any buttons in container
 container.addEventListener("click", (event) => {
   clickedButton = event.target;
   valueOfClickedButton = clickedButton.textContent;
-  /// if the clicked element is a box
-  if (clickedButton.classList.contains("box")) {
-    /// if the value is a number
-    if (
-      !isNaN(valueOfClickedButton) &&
-      valueOfClickedButton >= 0 &&
-      valueOfClickedButton <= 9
-    ) {
-      currentNumber += valueOfClickedButton;
-      resultPage.textContent = currentNumber;
-      /// if the value is not a number ; setting of current and previous numbers
-    } else if (
-      isNaN(valueOfClickedButton) &&
-      valueOfClickedButton !== "AC" &&
-      valueOfClickedButton !== "=" &&
-      valueOfClickedButton !== "%" &&
-      valueOfClickedButton !== "±" &&
-      valueOfClickedButton !== "."
-    ) {
-      if (currentNumber !== "") {
-        previousNumber = currentNumber;
-        currentNumber = "";
-      }
-      operationButton = valueOfClickedButton;
 
-      /// if the value is =
-    } else if (valueOfClickedButton === "=") {
-      calculateResult();
-      /// if the value is % , ±
-    } else if (valueOfClickedButton === "%" || valueOfClickedButton === "±") {
-      if (resultPage.textContent !== "") {
-        switch (valueOfClickedButton) {
-          case "%":
-            result = resultPage.textContent / 100;
-            break;
+  // if the clicked element is not a box return
+  if (!clickedButton.classList.contains("box")) return;
 
-          case "±":
-            result = resultPage.textContent * -1;
-            break;
+  // if the value is a number
+  if (!isNaN(valueOfClickedButton)) {
+    currentNumber += valueOfClickedButton;
+    resultPage.textContent = currentNumber;
 
-          default:
-            break;
-        }
-        afterSwitchCase();
-      }
-      /// if the value is .
-    } else if (valueOfClickedButton === ".") {
-      if (
-        resultPage.textContent !== "" &&
-        !resultPage.textContent.includes(".")
-      ) {
-        currentNumber += ".";
-        resultPage.textContent = currentNumber;
-      }
+    // if the value is a math operator ; setting of current and previous numbers
+  } else if (["÷", "×", "+", "-"].includes(valueOfClickedButton)) {
+    if (currentNumber !== "") {
+      previousNumber = currentNumber;
+      currentNumber = "";
     }
+    operationButton = valueOfClickedButton;
+  }
+});
+
+//*
+
+// Equal event listener
+equal.addEventListener("click", () => {
+  calculateResult();
+});
+
+// Reset event listener
+reset.addEventListener("click", () => {
+  resultPage.textContent = "";
+  currentNumber = "";
+  previousNumber = "";
+});
+
+// Absolute event listener
+
+absolute.addEventListener("click", () => {
+  if (resultPage.textContent !== "") {
+    result = resultPage.textContent * -1;
+  }
+  displayResult();
+});
+
+// Percent event listener
+percent.addEventListener("click", () => {
+  if (resultPage.textContent !== "") {
+    result = resultPage.textContent / 100;
+  }
+  displayResult();
+});
+
+// Dot Event Listener
+dot.addEventListener("click", () => {
+  if (resultPage.textContent !== "" && !resultPage.textContent.includes(".")) {
+    currentNumber += ".";
+    resultPage.textContent = currentNumber;
   }
 });
