@@ -1,5 +1,6 @@
 const container = document.querySelector(".container");
-const resultPage = document.querySelector(".result-page");
+const operationDisplay = document.querySelector(".operation-display");
+const resultDisplay = document.querySelector(".result-display");
 const reset = document.querySelector(".boxReset");
 //*
 const dot = document.querySelector(".boxDot");
@@ -17,9 +18,10 @@ let result;
 
 //! display Result
 function displayResult() {
-  resultPage.textContent = result;
+  resultDisplay.textContent = result;
   previousNumber = result;
   currentNumber = "";
+  operationDisplay.textContent = "";
 }
 //! Function to calculate result
 function calculateResult() {
@@ -55,7 +57,7 @@ container.addEventListener("click", (event) => {
   // if the value is a number
   if (!isNaN(valueOfClickedButton)) {
     currentNumber += valueOfClickedButton;
-    resultPage.textContent = currentNumber;
+    resultDisplay.textContent = currentNumber;
 
     // if the value is a math operator ; setting of current and previous numbers
   } else if (["÷", "×", "+", "-"].includes(valueOfClickedButton)) {
@@ -64,6 +66,10 @@ container.addEventListener("click", (event) => {
       currentNumber = "";
     }
     operationButton = valueOfClickedButton;
+    const topResult = previousNumber + " " + operationButton;
+
+    operationDisplay.textContent = topResult;
+    resultDisplay.textContent = "";
   }
 });
 
@@ -76,7 +82,8 @@ equal.addEventListener("click", () => {
 
 // Reset event listener
 reset.addEventListener("click", () => {
-  resultPage.textContent = "";
+  resultDisplay.textContent = "";
+  operationDisplay.textContent = "";
   currentNumber = "";
   previousNumber = "";
 });
@@ -84,24 +91,27 @@ reset.addEventListener("click", () => {
 // Absolute event listener
 
 absolute.addEventListener("click", () => {
-  if (resultPage.textContent !== "") {
-    result = resultPage.textContent * -1;
+  if (resultDisplay.textContent !== "") {
+    result = resultDisplay.textContent * -1;
   }
   displayResult();
 });
 
 // Percent event listener
 percent.addEventListener("click", () => {
-  if (resultPage.textContent !== "") {
-    result = resultPage.textContent / 100;
+  if (resultDisplay.textContent !== "") {
+    result = resultDisplay.textContent / 100;
   }
   displayResult();
 });
 
 // Dot Event Listener
 dot.addEventListener("click", () => {
-  if (resultPage.textContent !== "" && !resultPage.textContent.includes(".")) {
+  if (
+    resultDisplay.textContent !== "" &&
+    !resultDisplay.textContent.includes(".")
+  ) {
     currentNumber += ".";
-    resultPage.textContent = currentNumber;
+    resultDisplay.textContent = currentNumber;
   }
 });

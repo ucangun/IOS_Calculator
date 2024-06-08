@@ -5,6 +5,10 @@
   color: #fff;
 }
 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .calculator {
   width: 500px;
   height: 840px;
@@ -17,14 +21,23 @@
 }
 
 .result-page {
-  font-family: Arial, Helvetica, sans-serif;
   flex: 1;
-  padding: 2rem;
-  font-size: 3rem;
 
+  padding: 2rem;
   display: flex;
-  justify-content: end;
+  flex-direction: column;
   align-items: end;
+  justify-content: end;
+  gap: 1.5rem;
+}
+
+.operation-display {
+  font-size: 1.8rem;
+  color: #666;
+}
+
+.result-display {
+  font-size: 2.2rem;
 }
 
 .container {
@@ -35,7 +48,6 @@
 }
 
 .box {
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 3rem;
   background-color: #333;
   color: #fff;
@@ -71,5 +83,5 @@
 .box:hover {
   opacity: 0.5;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
