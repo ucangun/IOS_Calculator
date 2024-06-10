@@ -56,7 +56,11 @@ container.addEventListener("click", (event) => {
 
   // if the value is a number
   if (!isNaN(valueOfClickedButton)) {
-    currentNumber += valueOfClickedButton;
+    if (currentNumber === "0") {
+      currentNumber = valueOfClickedButton;
+    } else {
+      currentNumber += valueOfClickedButton;
+    }
     resultDisplay.textContent = currentNumber;
 
     // if the value is a math operator ; setting of current and previous numbers
@@ -66,10 +70,12 @@ container.addEventListener("click", (event) => {
       currentNumber = "";
     }
     operationButton = valueOfClickedButton;
-    const topResult = previousNumber + " " + operationButton;
 
-    operationDisplay.textContent = topResult;
-    resultDisplay.textContent = "";
+    if (previousNumber !== "") {
+      const topResult = previousNumber + " " + operationButton;
+      operationDisplay.textContent = topResult;
+      resultDisplay.textContent = "";
+    }
   }
 });
 
